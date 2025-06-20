@@ -1,6 +1,7 @@
 import express from "express";
 
 const app = express();
+app.use(express.json());
 
 const livros = [
     {
@@ -23,6 +24,7 @@ app.get("/livros", (req, res)=>{
 
 app.post("/livros", (req,res)=>{
     livros.push(req.body);
+    res.status(201).send("Livros cadastrado com sucesso!")
 })
 
 export default app;
