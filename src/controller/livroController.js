@@ -1,15 +1,11 @@
-// controller/LivroController.js
-
-import Livro from "../models/Livro.js"; // Certifique-se de que o caminho está correto
+import Livro from "../models/Livro.js"; 
 
 class LivroController {
 
-    // Método para listar todos os livros
-    // Não recebe ID no parâmetro da requisição, apenas busca todos
     static async listarLivros (req, res) {
         try {
             const livros = await Livro.find(); // Busca todos os documentos da coleção 'livros'
-            res.status(200).json(listalivros); // Retorna a lista de livros em JSON
+            res.status(200).json(livros); // Retorna a lista de livros em JSON
         } catch (erro) {
             // Em caso de erro na busca, retorna um status 500 com a mensagem de erro
             res.status(500).json({ message: `${erro.message} - falha ao listar livros` });
@@ -18,10 +14,10 @@ class LivroController {
      static async listarLivrosPorId (req, res) {
         try {
             const id = req.params.id;
-            const livroEncontrado = await livro.findById(id);
+            const livroEncontrado = await Livro.findById(id);
             res.status(200).json(livroEncontrado);
         } catch (erro) {
-            res.status(500).json({ message: `${erro.message} - falha na reuisição do livros` });
+            res.status(500).json({ message: `${erro.message} - falha na requisição do livros` });
         }
     }
 
@@ -29,10 +25,10 @@ class LivroController {
     static async atualizarLivro (req, res) {
         try {
             const id = req.params.id; 
-             await livro.findByIdAndUpdate(id, req.body); 
+             await Livro.findByIdAndUpdate(id, req.body); 
                 res.status(200).json({message: "livro atualizado"});
         } catch (erro) {
-            res.status(500).json({ message: `${erro.message} - falha na reuisição do livros` });
+            res.status(500).json({ message: `${erro.message} - falha na requisição do livros` });
         }
     }
 
@@ -46,7 +42,15 @@ class LivroController {
             res.status(500).json({ message: `${erro.message} - falha ao cadastrar livro` });
         }
     }
-
+    static async excluirLivro (req, res) {
+        try {
+        const id = req.params.id;
+        await Livro.findByIdAndDelete(id);
+        res.status(200).json({ message: "livro excluído com sucesso" });
+        } catch (erro) {
+        res.status(500).json({ message: `${erro.message} - falha na exclusão` });
+        }
+    };
 }
 
 export default LivroController;
